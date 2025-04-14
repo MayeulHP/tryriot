@@ -50,6 +50,12 @@ docker run -p 8000:8000 crypto-api
 
 ### Access the Swagger at [http://localhost:8000/docs](http://localhost:8000/docs)
 
+## 🧪 Testing
+
+```sh
+pip install -r requirements-test.txt
+pytest
+```
 
 ## 📬 API Usage
 
