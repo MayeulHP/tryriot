@@ -9,11 +9,11 @@ def encode_obj(obj: Dict[str, Any]) -> Dict[str, str]:
     try:
         
         for key, value in obj.items():
-            if isinstance(value, dict):
+            if isinstance(value, dict): # If the value is an object, dump it to a string and encode it as is
                 json_str = json.dumps(value, indent=None, sort_keys=True)
                 obj[key] = encode(json_str)
             else:
-                obj[key] = encode(str(value))
+                obj[key] = encode(str(value)) # Else, encode the string
         return obj
     except Exception as e:
         raise ValueError(f"Encryption failed: {str(e)}")
