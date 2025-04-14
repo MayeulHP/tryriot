@@ -20,21 +20,20 @@ def encode_obj(obj: Dict[str, Any]) -> Dict[str, str]:
     
 def decode_obj(obj: Dict[str, str]) -> Dict[str, Any]:
     """
-    Decrypts a JSON object, by decrypting all properties at depth 1.
+    Decrypts a JSON object by decoding all properties at depth 1.
+    If a decoded value is a valid JSON string, it is parsed into its corresponding type.
     """
-    try:
-        for key, value in obj.items():
+    decoded_obj = {}
+    for key, value in obj.items():
+        try:
             decoded_value = decode(value)
-            if decoded_value.startswith('{') and decoded_value.endswith('}'):
-                try:
-                    obj[key] = json.loads(decoded_value)
-                except json.JSONDecodeError:
-                    obj[key] = decoded_value
-            else:
-                obj[key] = decoded_value
-        return obj
-    except Exception as e:
-        raise ValueError(f"Decryption failed: {str(e)}")
+            # Try to parse as JSON
+            decoded_obj[key] = json.loads(decoded_value)
+        except (json.JSONDecodeError, TypeError):
+            decoded_obj[key] = decoded_value # If decoding fails, keep the original value
+        except Exception as e:
+            raise ValueError(f"Failed to decode key '{key}': {str(e)}")
+    return decoded_obj
     
 def sign_obj(obj: Dict[str, Any]) -> str:
     """

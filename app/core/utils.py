@@ -11,10 +11,12 @@ private_key = private_key.encode('utf-8') if private_key else None
 # If the environment variable is not set, default to a hardcoded value and print a warning
 if private_key is None:
     private_key = b'default_private_key'
-    print("Warning: PRIVATE_KEY not set in .env file. Using default (unsafe) value.")
-    print("Please set the PRIVATE_KEY in your .env file for production use.")
-    print("=== THIS IS NOT SECURE AND SHOULD NOT BE USED IN PRODUCTION. ===")
+    print("\033[91m/!\\ WARNING: PRIVATE_KEY not set in .env file. Using default (unsafe) value. /!\\\033[0m")
+    print("\033[91m/!\\     Please set the PRIVATE_KEY in your .env file for production use.     /!\\\033[0m")
+    print("\033[91m/!\\     === THIS IS NOT SECURE AND SHOULD NOT BE USED IN PRODUCTION. ===     /!\\\033[0m")
 
+
+# NOTE: Any changes to the encryption/decryption/signing/verification logic should be reflected in the API documentation and examples, as well as in docstrings in /api/v1/endpoints/crypto.py
 def encode(data: str) -> str:
     """
     Encode a string using base64 encoding.
