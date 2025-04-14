@@ -1,8 +1,19 @@
 import base64
 import hmac
+from dotenv import load_dotenv
+import os
 
-# Secret key for HMAC signing
-secret_key = b'very_secret_key'  # Should be taken from a .env file or secure storage in production
+# Load environment variables from .env file
+load_dotenv()
+private_key = os.getenv("PRIVATE_KEY")
+private_key = private_key.encode('utf-8') if private_key else None
+
+# If the environment variable is not set, default to a hardcoded value and print a warning
+if private_key is None:
+    private_key = b'default_private_key'
+    print("Warning: PRIVATE_KEY not set in .env file. Using default (unsafe) value.")
+    print("Please set the PRIVATE_KEY in your .env file for production use.")
+    print("=== THIS IS NOT SECURE AND SHOULD NOT BE USED IN PRODUCTION. ===")
 
 def encode(data: str) -> str:
     """
@@ -22,7 +33,7 @@ def sign(data: str) -> str:
     """
     Sign a string using HMAC with SHA256.
     """
-    return hmac.new(secret_key, data.encode('utf-8'), 'sha256').hexdigest()
+    return hmac.new(private_key, data.encode('utf-8'), 'sha256').hexdigest()
 
 def verify(data: str, signature: str) -> bool:
     """

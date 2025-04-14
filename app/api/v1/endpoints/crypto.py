@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from typing import Any, Dict
 from app.services.cryptoService import encode_obj, decode_obj, sign_obj, verify_obj
 
@@ -34,8 +34,10 @@ def verify(payload: Dict[str, Any]) -> Dict[str, Any]:
         signature = payload.pop("signature")
         is_valid = verify_obj(payload, signature)
         if is_valid:
-            raise HTTPException(status_code=204)
+            return Response(status_code=204)
         else:
             raise HTTPException(status_code=400, detail="Signature is invalid")
+    except HTTPException:
+        raise  # Keep the HTTPException as is
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Verification failed: {str(e)}")
