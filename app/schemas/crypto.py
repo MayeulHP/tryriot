@@ -65,7 +65,7 @@ class VerifyInput(RootModel[Dict[str, Any]]):
                         "phone": "123-456-7890"
                     },
                     "name": "John Doe",
-                    "signature": "279fdcaac2f087f1ec82d8026b423e8320eb90265c81daba265b02e67c009fc5"
+                    "signature": "fcfbfe1ea7042df3a6d18a1b52cd98436c6f81c29b42425d384cac366c2fae9c"
                 }
             ]
         }

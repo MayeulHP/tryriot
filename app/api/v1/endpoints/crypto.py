@@ -51,7 +51,10 @@ def sign(payload: ValidJson) -> Dict[str, Any]:
 )
 def verify(payload: VerifyInput) -> Dict[str, Any]:
     try:
-        signature = payload.root.pop("signature")
+        signature = payload.root.pop("signature", None)
+        if signature is None:
+            raise HTTPException(status_code=422, detail="Missing signature in payload")
+
         is_valid = verify_obj(payload.root, signature)
         if is_valid:
             return Response(status_code=204)
