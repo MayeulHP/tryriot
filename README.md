@@ -134,3 +134,4 @@ Request:
 Responses:
 - Code 204 (No Content): Signature is valid
 - Code 400 (Bad Request): Signature is invalid
+- Code 422 (Unprocessable Content): Invalid JSON or missing signature
